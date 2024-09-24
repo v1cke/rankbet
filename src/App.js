@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import PlayerTable from "./components/PlayerTable";
@@ -6,32 +7,102 @@ import CurrentStandingsTable from "./components/CurrentStandingsTable";
 import RankingsTable from "./components/RankingsTable";
 
 const App = () => {
-  const initialTeams = [
+  const [standings, setStandings] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStandings = async () => {
+      const options = {
+        method: "GET",
+        url: "https://bundesliga-standings.p.rapidapi.com/",
+        headers: {
+          "x-rapidapi-key":
+            "576b8619ccmsh8194636abb97867p1cd04ejsn76b6371afe4e",
+          "x-rapidapi-host": "bundesliga-standings.p.rapidapi.com",
+        },
+      };
+
+      try {
+        const response = await axios.request(options);
+        setStandings(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchStandings();
+  }, []); // Empty dependency array ensures useEffect runs only once, similar to componentDidMount
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const ladderPlayer1 = [
+    "Borussia Dortmund",
+    "RB Leipzig",
+    "Bayer Leverkusen",
+    "Bayern Munich",
+    "Eintracht Frankfurt",
+    "VfB Stuttgart",
+    "VfL Wolfsburg",
+    "1. FC Union Berlin",
+    "SC Freiburg",
+    "Borussia Monchengladbach",
+    "TSG Hoffenheim",
+    "Werder Bremen",
+    "FC Augsburg",
+    "Mainz",
+    "VfL Bochum",
+    "1. FC Heidenheim 1846",
+    "Holstein Kiel",
+    "St. Pauli",
+  ];
+  const ladderPlayer2 = [
     "Bayern Munich",
     "Bayer Leverkusen",
-    "VFB Stuttgart",
-    "RB Leipzig",
     "Borussia Dortmund",
+    "RB Leipzig",
     "Eintracht Frankfurt",
+    "VfB Stuttgart",
     "TSG Hoffenheim",
-    "1. FC Heidenheim 1846",
+    "VfL Wolfsburg",
     "Werder Bremen",
     "SC Freiburg",
-    "FC Augsburg",
-    "Vfl Wolfsburg",
     "Mainz",
-    "Borussia Mönchengladbach",
+    "Borussia Monchengladbach",
     "1. FC Union Berlin",
-    "Vfl Bochum",
-    "FC Cologne",
-    "SV Darmstadt 98",
+    "VfL Bochum",
+    "FC Augsburg",
+    "1. FC Heidenheim 1846",
+    "St. Pauli",
+    "Holstein Kiel",
+  ];
+  const ladderPlayer3 = [
+    "Bayern Munich",
+    "Bayer Leverkusen",
+    "Borussia Dortmund",
+    "RB Leipzig",
+    "Eintracht Frankfurt",
+    "VfL Wolfsburg",
+    "TSG Hoffenheim",
+    "VfB Stuttgart",
+    "SC Freiburg",
+    "Mainz",
+    "Werder Bremen",
+    "Borussia Monchengladbach",
+    "FC Augsburg",
+    "1. FC Union Berlin",
+    "1. FC Heidenheim 1846",
+    "St. Pauli",
+    "VfL Bochum",
+    "Holstein Kiel",
   ];
 
   const players = [
-    { name: "player 1", points: 37, initialTeams },
-    { name: "player 2", points: 45, initialTeams },
-    { name: "player 3", points: 23, initialTeams },
-    { name: "player 4", points: 27, initialTeams },
+    { name: "Happy", initialTeams: ladderPlayer1 },
+    { name: "Peter", initialTeams: ladderPlayer2 },
+    { name: "Vicke", initialTeams: ladderPlayer3 },
   ];
 
   return (
@@ -45,12 +116,15 @@ const App = () => {
             gap: 20,
           }}
         >
-          <PlayerTable player="Player 1" initialTeams={initialTeams} />
-          <PlayerTable player="Player 2" initialTeams={initialTeams} />
-          <PlayerTable player="Player 3" initialTeams={initialTeams} />
-          <PlayerTable player="Player 4" initialTeams={initialTeams} />
-          <CurrentStandingsTable />
-          <RankingsTable players={players} initialTeams={initialTeams} />
+          <PlayerTable player="Happy" initialTeams={ladderPlayer1} />
+          <PlayerTable player="Peter" initialTeams={ladderPlayer2} />
+          <PlayerTable player="Vicke" initialTeams={ladderPlayer3} />
+          {standings && (
+            <>
+              <CurrentStandingsTable standings={standings} />
+              <RankingsTable players={players} standings={standings} />
+            </>
+          )}
         </div>
       </div>
     </DndProvider>
