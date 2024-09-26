@@ -26,8 +26,8 @@ const RankingsTable = ({ players, standings }) => {
 
   return (
     <div>
-      <h3>Rankings</h3>
-      {data.map((player, index) => (
+      <h3>Aktueller Stand</h3>
+      {data.map((player) => (
         <div
           key={player.name}
           style={{
