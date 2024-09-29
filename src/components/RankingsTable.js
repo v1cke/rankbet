@@ -18,25 +18,21 @@ const RankingsTable = ({ players, standings }) => {
         });
         return { ...player, points };
       });
-      setData(newData);
+
+      // Sortiere die Daten nach Punkten (aufsteigend)
+      const sortedData = newData.sort((a, b) => a.points - b.points);
+      setData(sortedData);
     };
 
     calculatePoints();
   }, [players, standings]);
 
   return (
-    <div>
+    <div className="table">
       <h3>Aktueller Stand</h3>
-      {data.map((player) => (
-        <div
-          key={player.name}
-          style={{
-            padding: "8px",
-            border: "1px solid black",
-            marginBottom: "4px",
-          }}
-        >
-          {player.name}: {player.points} points
+      {data.map((player, index) => (
+        <div key={player.name} className="table-row">
+          {index + 1}. {player.name}: {player.points} points
         </div>
       ))}
     </div>

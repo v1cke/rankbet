@@ -1,17 +1,10 @@
 const CurrentStandingsTable = ({ standings }) => {
   return (
-    <div>
+    <div className="table">
       <h3>Aktuelle Tabelle</h3>
       {standings.map((club, index) => (
-        <div
-          key={index}
-          style={{
-            padding: "8px",
-            border: "1px solid black",
-            marginBottom: "4px",
-          }}
-        >
-          {club.team.name}
+        <div key={index} className="table-row">
+          {index + 1}. {club.team.name}
         </div>
       ))}
     </div>

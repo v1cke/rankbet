@@ -1,7 +1,7 @@
 import React from "react";
 import { useDrag, useDrop } from "react-dnd";
 
-const DraggableItem = ({ id, index, moveItem, name }) => {
+const DraggableItem = ({ id, index, moveItem, name, className }) => {
   const [{ isDragging }, drag] = useDrag({
     type: "ITEM",
     item: { id, index },
@@ -24,12 +24,8 @@ const DraggableItem = ({ id, index, moveItem, name }) => {
   return (
     <div
       ref={(node) => drag(drop(node))}
-      style={{
-        padding: "8px",
-        border: "1px solid black",
-        marginBottom: "4px",
-        opacity,
-      }}
+      className={className}
+      style={{ opacity }}
     >
       {name}
     </div>

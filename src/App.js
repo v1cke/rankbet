@@ -9,6 +9,7 @@ import RankingsTable from "./components/RankingsTable";
 const App = () => {
   const [standings, setStandings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedPlayer, setSelectedPlayer] = useState(""); // State für den ausgewählten Spieler
 
   useEffect(() => {
     const fetchStandings = async () => {
@@ -32,7 +33,7 @@ const App = () => {
     };
 
     fetchStandings();
-  }, []); // Empty dependency array ensures useEffect runs only once, similar to componentDidMount
+  }, []);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -105,26 +106,66 @@ const App = () => {
     { name: "Vicke", initialTeams: ladderPlayer3 },
   ];
 
+  const handlePlayerChange = (event) => {
+    setSelectedPlayer(event.target.value); // Ausgewählten Spieler setzen
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ justifyContent: "center", padding: 20 }}>
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            maxWidth: 1500,
-            gap: 20,
+            alignItems: "center",
+            gap: "20px", // Abstand zwischen Dropdown und Tabelle
           }}
         >
-          <PlayerTable player="Happy" initialTeams={ladderPlayer1} />
-          <PlayerTable player="Peter" initialTeams={ladderPlayer2} />
-          <PlayerTable player="Vicke" initialTeams={ladderPlayer3} />
-          {standings && (
-            <>
-              <CurrentStandingsTable standings={standings} />
-              <RankingsTable players={players} standings={standings} />
-            </>
+          {/* Dropdown-Auswahlfeld */}
+          <select
+            value={selectedPlayer}
+            onChange={handlePlayerChange}
+            style={{
+              padding: "10px",
+              fontSize: "16px",
+              background: "white", // Hintergrundfarbe
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              cursor: "pointer", // Stil für bessere UX
+            }}
+          >
+            <option value="">Spielertipps wählen</option>
+            {players.map((player) => (
+              <option key={player.name} value={player.name}>
+                {player.name}
+              </option>
+            ))}
+          </select>
+
+          {/* Zeige die Tabelle nur an, wenn ein Spieler ausgewählt ist */}
+          {selectedPlayer && (
+            <div style={{ width: "300px" }}>
+              {players
+                .filter((player) => player.name === selectedPlayer)
+                .map((player) => (
+                  <PlayerTable
+                    key={player.name}
+                    player={player.name}
+                    initialTeams={player.initialTeams}
+                  />
+                ))}
+            </div>
           )}
+
+          {/* Aktuelle Tabelle und Rangliste */}
+          <div style={{ gap: "20px" }}>
+            <div style={{ width: "300px" }}>
+              {standings && <CurrentStandingsTable standings={standings} />}
+            </div>
+            <div style={{ width: "300px" }}>
+              {standings && (
+                <RankingsTable players={players} standings={standings} />
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </DndProvider>

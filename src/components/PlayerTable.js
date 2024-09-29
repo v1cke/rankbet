@@ -12,7 +12,7 @@ const PlayerTable = ({ player, initialTeams }) => {
   };
 
   return (
-    <div>
+    <div className="table">
       <h3>{player}</h3>
       {items.map((item, index) => (
         <DraggableItem
@@ -20,7 +20,7 @@ const PlayerTable = ({ player, initialTeams }) => {
           id={item}
           index={index}
           moveItem={moveItem}
-          name={item}
+          name={`${index + 1}. ${item}`} // Nummerierung der Teams
         />
       ))}
     </div>
