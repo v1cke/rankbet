@@ -12,11 +12,12 @@ const PlayerTable = ({ player, initialTeams }) => {
   };
 
   return (
-    <div className="table">
+    <div className="table" style={{ flexDirection: "column" }}>
       <h3>{player}</h3>
       {items.map((item, index) => (
         <DraggableItem
           key={item}
+          className="table-row"
           id={item}
           index={index}
           moveItem={moveItem}

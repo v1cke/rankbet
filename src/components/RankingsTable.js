@@ -9,7 +9,7 @@ const RankingsTable = ({ players, standings }) => {
         let points = 0;
         player.initialTeams.forEach((prediction, index) => {
           const actualPosition = standings.findIndex(
-            (club) => club.team.name === prediction
+            (club) => club.teamName === prediction
           );
           if (actualPosition !== -1) {
             const positionDifference = Math.abs(index - actualPosition);
@@ -28,7 +28,7 @@ const RankingsTable = ({ players, standings }) => {
   }, [players, standings]);
 
   return (
-    <div className="table">
+    <div className="table" style={{ flexDirection: "column" }}>
       <h3>Aktueller Stand</h3>
       {data.map((player, index) => (
         <div key={player.name} className="table-row">

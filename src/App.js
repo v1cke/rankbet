@@ -8,6 +8,7 @@ import RankingsTable from "./components/RankingsTable";
 
 const App = () => {
   const [standings, setStandings] = useState([]);
+  console.log("App  standings", standings);
   const [loading, setLoading] = useState(true);
   const [selectedPlayer, setSelectedPlayer] = useState(""); // State für den ausgewählten Spieler
 
@@ -15,12 +16,13 @@ const App = () => {
     const fetchStandings = async () => {
       const options = {
         method: "GET",
-        url: "https://bundesliga-standings.p.rapidapi.com/",
-        headers: {
-          "x-rapidapi-key":
-            "576b8619ccmsh8194636abb97867p1cd04ejsn76b6371afe4e",
-          "x-rapidapi-host": "bundesliga-standings.p.rapidapi.com",
-        },
+        url: "https://api.openligadb.de/getbltable/bl1/2024",
+        // url: "https://bundesliga-standings.p.rapidapi.com/",
+        // headers: {
+        //   "x-rapidapi-key":
+        //     "576b8619ccmsh8194636abb97867p1cd04ejsn76b6371afe4e",
+        //   "x-rapidapi-host": "bundesliga-standings.p.rapidapi.com",
+        // },
       };
 
       try {
@@ -43,59 +45,59 @@ const App = () => {
     "Borussia Dortmund",
     "RB Leipzig",
     "Bayer Leverkusen",
-    "Bayern Munich",
+    "FC Bayern München",
     "Eintracht Frankfurt",
     "VfB Stuttgart",
     "VfL Wolfsburg",
     "1. FC Union Berlin",
     "SC Freiburg",
-    "Borussia Monchengladbach",
-    "TSG Hoffenheim",
+    "Borussia Mönchengladbach",
+    "TSG 1899 Hoffenheim",
     "Werder Bremen",
     "FC Augsburg",
     "Mainz",
     "VfL Bochum",
     "1. FC Heidenheim 1846",
     "Holstein Kiel",
-    "St. Pauli",
+    "FC St. Pauli",
   ];
   const ladderPlayer2 = [
-    "Bayern Munich",
+    "FC Bayern München",
     "Bayer Leverkusen",
     "Borussia Dortmund",
     "RB Leipzig",
     "Eintracht Frankfurt",
     "VfB Stuttgart",
-    "TSG Hoffenheim",
+    "TSG 1899 Hoffenheim",
     "VfL Wolfsburg",
     "Werder Bremen",
     "SC Freiburg",
     "Mainz",
-    "Borussia Monchengladbach",
+    "Borussia Mönchengladbach",
     "1. FC Union Berlin",
     "VfL Bochum",
     "FC Augsburg",
     "1. FC Heidenheim 1846",
-    "St. Pauli",
+    "FC St. Pauli",
     "Holstein Kiel",
   ];
   const ladderPlayer3 = [
-    "Bayern Munich",
+    "FC Bayern München",
     "Bayer Leverkusen",
     "Borussia Dortmund",
     "RB Leipzig",
     "Eintracht Frankfurt",
     "VfL Wolfsburg",
-    "TSG Hoffenheim",
+    "TSG 1899 Hoffenheim",
     "VfB Stuttgart",
     "SC Freiburg",
     "Mainz",
     "Werder Bremen",
-    "Borussia Monchengladbach",
+    "Borussia Mönchengladbach",
     "FC Augsburg",
     "1. FC Union Berlin",
     "1. FC Heidenheim 1846",
-    "St. Pauli",
+    "FC St. Pauli",
     "VfL Bochum",
     "Holstein Kiel",
   ];
@@ -116,6 +118,7 @@ const App = () => {
         <div
           style={{
             alignItems: "center",
+            position: "relative",
             gap: "20px", // Abstand zwischen Dropdown und Tabelle
           }}
         >
@@ -129,6 +132,7 @@ const App = () => {
               background: "white", // Hintergrundfarbe
               border: "1px solid #ccc",
               borderRadius: "4px",
+              zIndex: 10,
               cursor: "pointer", // Stil für bessere UX
             }}
           >
